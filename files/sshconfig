@@ -1,0 +1,137 @@
+# Cisco IOSv
+
+Host r1
+  HostName 192.168.120.11
+
+Host r2
+  HostName 192.168.120.12
+
+Host r3
+  HostName 192.168.120.13
+
+Host r4
+  HostName 192.168.120.14
+
+Host r5
+  HostName 192.168.120.15
+
+Host r6
+  HostName 192.168.120.16
+
+Host r7
+  HostName 192.168.120.17
+
+Host r8
+  HostName 192.168.120.18
+
+Host r9
+  HostName 192.168.120.19
+
+Host r10
+  HostName 192.168.120.20
+
+Host r11
+  HostName 192.168.120.21
+
+Host r12
+  HostName 192.168.120.22
+
+Host r13
+  HostName 192.168.120.23
+
+Host r14
+  HostName 192.168.120.24
+
+Host r15
+  HostName 192.168.120.25
+
+Host r16
+  HostName 192.168.120.26
+
+Host r17
+  HostName 192.168.120.27
+
+Host r18
+  HostName 192.168.120.28
+
+Host r19
+  HostName 192.168.120.29
+
+Host r20
+  HostName 192.168.120.30
+
+# Cisco IOSvL2
+
+Host sw1
+  HostName 192.168.120.31
+
+Host sw2
+  HostName 192.168.120.32
+
+Host sw3
+  HostName 192.168.120.33
+
+Host sw4
+  HostName 192.168.120.34
+
+Host sw5
+  HostName 192.168.120.35
+
+Host sw6
+  HostName 192.168.120.36
+
+Host sw7
+  HostName 192.168.120.37
+
+Host sw8
+  HostName 192.168.120.38
+
+Host sw9
+  HostName 192.168.120.39
+
+Host sw10
+  HostName 192.168.120.40
+
+Host sw11
+  HostName 192.168.120.41
+
+Host sw12
+  HostName 192.168.120.42
+
+Host sw13
+  HostName 192.168.120.43
+
+Host sw14
+  HostName 192.168.120.44
+
+Host sw15
+  HostName 192.168.120.45
+
+Host sw16
+  HostName 192.168.120.46
+
+Host sw17
+  HostName 192.168.120.47
+
+Host sw18
+  HostName 192.168.120.48
+
+Host sw19
+  HostName 192.168.120.49
+
+Host sw20
+  HostName 192.168.120.50
+
+# Defaults
+
+Host r? r?? sw? sw??
+  User vagrant
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedAlgorithms +ssh-rsa
+  KexAlgorithms +diffie-hellman-group-exchange-sha1
+  IdentityFile ~/.vagrant.d/insecure_private_key
+  IdentitiesOnly yes 
+  LogLevel FATAL

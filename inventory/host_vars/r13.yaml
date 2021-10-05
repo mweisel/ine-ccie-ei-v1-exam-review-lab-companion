@@ -1,0 +1,79 @@
+---
+routing:
+  ipv6: true
+dmvpn:
+  role: spoke
+  isakmp:
+    policy:
+      priority: 1
+      encryption: aes
+      auth: pre-share
+      dh_group: 14
+    key:
+      psk: cisco
+      addr: 0.0.0.0
+  ipsec:
+    ts:
+      name: ESP-AES-SHA
+      cipher: esp-aes
+      auth: esp-sha-hmac
+      mode: transport
+    profile:
+      name: ENCRYPTION 
+interfaces:
+  Loopback0:
+    ipv4:
+      addr: 192.168.255.13
+      mask: 255.255.255.255
+    ipv6:
+      addr: 2001::13
+      mask: 128
+  Loopback1:
+    ipv4:
+      addr: 192.168.111.13
+      mask: 255.255.255.255
+  Tunnel0:
+    ipv4:
+      addr: 192.168.100.13
+      mask: 255.255.255.0
+    nhrp:
+      auth_str: AUTH
+      hub:
+        r7:
+          dest: 192.168.100.7
+          nbma: 192.168.255.7
+        r8:
+          dest: 192.168.100.8
+          nbma: 192.168.255.8
+      nid: 1
+    tunnel:
+      source: Loopback0
+      key: 1
+  GigabitEthernet0/1:
+    ipv4:
+      addr: 165.1.134.13
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:134::13
+      mask: 64
+  GigabitEthernet0/2:
+    ipv4:
+      addr: 165.1.143.13
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:143::13
+      mask: 64
+  GigabitEthernet0/3:
+    ipv4:
+      addr: 165.1.103.13
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:103::13
+      mask: 64
+  GigabitEthernet0/4:
+    ipv4:
+      addr: 165.1.13.13
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:13::13
+      mask: 64

@@ -1,0 +1,81 @@
+---
+r1:
+  hostname: 192.168.121.11
+  groups:
+    - router
+r2:
+  hostname: 192.168.121.12
+  groups:
+    - router
+r3:
+  hostname: 192.168.121.13
+  groups:
+    - router
+r4:
+  hostname: 192.168.121.14
+  groups:
+    - router
+r5:
+  hostname: 192.168.121.15
+  groups:
+    - router
+r6:
+  hostname: 192.168.121.16
+  groups:
+    - router
+r7:
+  hostname: 192.168.121.17
+  groups:
+    - router
+r8:
+  hostname: 192.168.121.18
+  groups:
+    - router
+r9:
+  hostname: 192.168.121.19
+  groups:
+    - router
+r10:
+  hostname: 192.168.121.20
+  groups:
+    - router
+r11:
+  hostname: 192.168.121.21
+  groups:
+    - router
+r12:
+  hostname: 192.168.121.22
+  groups:
+    - router
+r13:
+  hostname: 192.168.121.23
+  groups:
+    - router
+r14:
+  hostname: 192.168.121.24
+  groups:
+    - router
+sw1:
+  hostname: 192.168.121.31
+  groups:
+    - switch
+sw2:
+  hostname: 192.168.121.32
+  groups:
+    - switch
+sw3:
+  hostname: 192.168.121.33
+  groups:
+    - switch
+sw4:
+  hostname: 192.168.121.34
+  groups:
+    - switch
+sw5:
+  hostname: 192.168.121.35
+  groups:
+    - switch
+sw6:
+  hostname: 192.168.121.36
+  groups:
+    - switch

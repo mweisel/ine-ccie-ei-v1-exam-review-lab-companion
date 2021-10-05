@@ -1,0 +1,23 @@
+---
+interfaces:
+  Loopback0:
+    ipv4:
+      addr: 192.168.255.25
+      mask: 255.255.255.255
+    ipv6:
+      addr: 2001::25
+      mask: 128
+  Vlan30:
+    ipv4:
+      addr: 165.1.30.25
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:30::25
+      mask: 64
+  Vlan40:
+    ipv4:
+      addr: 165.1.40.25
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:40::25
+      mask: 64

@@ -1,0 +1,245 @@
+version {{ host.version }}
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname {{ host }}
+!
+boot-start-marker
+boot-end-marker
+!
+shell processing full
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+!
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name example.com
+ip cef
+{% if host.facts.routing is defined and host.facts.routing.ipv6 is true %}
+ipv6 unicast-routing
+ipv6 cef
+{% endif %}
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+archive
+ path flash:archive
+ write-memory
+username vagrant privilege 15 secret 9 $9$hi9QEMskiaLO19$9O3QFSTNKMdhp9oPM/zq66c2Cu8Q3pq1AJsMFyIrwJQ
+!
+redundancy
+!
+{% if host.lldp is true %}
+lldp run
+{% endif %}
+no cdp run
+!
+! 
+!
+!
+!
+!
+{% if host.facts.dmvpn is defined %}
+crypto isakmp policy {{ host.facts.dmvpn.isakmp.policy.priority }}
+ encr {{ host.facts.dmvpn.isakmp.policy.encryption }}
+ authentication {{ host.facts.dmvpn.isakmp.policy.auth }}
+ group {{ host.facts.dmvpn.isakmp.policy.dh_group }}
+crypto isakmp key {{ host.facts.dmvpn.isakmp.key.psk }} address {{ host.facts.dmvpn.isakmp.key.addr }}
+!
+!
+crypto ipsec transform-set {{ host.facts.dmvpn.ipsec.ts.name }} {{ host.facts.dmvpn.ipsec.ts.cipher }} {{ host.facts.dmvpn.ipsec.ts.auth }}
+ mode {{ host.facts.dmvpn.ipsec.ts.mode }}
+!
+crypto ipsec profile {{ host.facts.dmvpn.ipsec.profile.name }}
+ set transform-set {{ host.facts.dmvpn.ipsec.ts.name }}
+{% endif %}
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-intf
+ ip address dhcp
+ duplex auto
+ speed auto
+ media-type rj45
+ no cdp enable
+ no lldp transmit
+ no lldp receive
+!
+{% for intf, data in host.facts.interfaces.items() %}
+interface {{ intf }}
+{% if data.vlan is defined %}
+ encapsulation dot1Q {{ data.vlan}}
+{% endif %}
+{% if data.ipv4 is defined %}
+ ip address {{ data.ipv4.addr }} {{ data.ipv4.mask }}
+{% endif %}
+{% if data.eigrp_sa is defined %}
+{% if data.eigrp_sa.leak_map is defined %}
+ ip summary-address eigrp {{ data.eigrp_sa.asn }} {{ data.eigrp_sa.addr }} {{ data.eigrp_sa.mask }} leak-map {{ data.eigrp_sa.leak_map }}
+{% else %}
+ ip summary-address eigrp {{ data.eigrp_sa.asn }} {{ data.eigrp_sa.addr }} {{ data.eigrp_sa.mask }}
+{% endif %}
+{% endif %}
+{% if data.ipv6 is defined %}
+ ipv6 address {{ data.ipv6.addr }}/{{ data.ipv6.mask }}
+{% endif %}
+{% if host.facts.dmvpn is defined and intf == 'Tunnel0' %}
+ no ip redirects
+ ip nhrp authentication {{ data.nhrp.auth_str }}
+{% if host.facts.dmvpn.role == 'hub' %}
+ ip nhrp map multicast dynamic
+ ip nhrp map {{ data.nhrp.dest_addr }} {{ data.nhrp.nbma_addr }}
+ ip nhrp map multicast {{ data.nhrp.nbma_addr }}
+{% endif %}
+{% if host.facts.dmvpn.role == 'spoke' %}
+{% for addr in data.nhrp.hub %}
+ ip nhrp map multicast {{ data.nhrp.hub[addr].nbma }}
+{% endfor %}
+{% endif %}
+ ip nhrp network-id {{ data.nhrp.nid }}
+{% if host.facts.dmvpn.role == 'spoke' %}
+{% for addr in data.nhrp.hub %}
+ ip nhrp nhs {{ data.nhrp.hub[addr].dest }} nbma {{ data.nhrp.hub[addr].nbma }}
+{% endfor %}
+{% endif %}
+ tunnel source {{ data.tunnel.source }}
+ tunnel mode gre multipoint
+ tunnel key {{ data.tunnel.key }}
+ tunnel protection ipsec profile {{ host.facts.dmvpn.ipsec.profile.name }}
+{% endif %}
+!
+{% endfor %}
+!
+{% if host.facts.routing is defined and host.facts.routing.eigrp is defined %}
+{% if host.facts.routing.eigrp.name is defined %}
+router eigrp {{ host.facts.routing.eigrp.name }}
+ !
+{% if host.facts.routing.eigrp.ipv4 is defined %}
+ address-family ipv4 unicast autonomous-system {{ host.facts.routing.eigrp.ipv4.asn }}
+  !
+  topology base
+  exit-af-topology
+{% for net in host.facts.routing.eigrp.ipv4.networks %}
+  network {{ net }}
+{% endfor %}
+ exit-address-family
+!
+{% endif %}
+{% else %}
+{% for num, data in host.facts.routing.eigrp.asn.items() %}
+router eigrp {{ num }}
+{% for net in data.networks %}
+ network {{ net }}
+{% endfor %}
+{% if data.ad is defined %}
+ distance eigrp {{ data.ad.internal }} {{ data.ad.external }}
+{% endif %}
+!
+{% endfor %}
+!
+{% endif %}
+{% endif %}
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip ssh source-interface GigabitEthernet0/0
+ip ssh rsa keypair-name VAGRANT
+ip ssh version 2
+ip ssh pubkey-chain
+  username vagrant
+   key-hash ssh-rsa DD3BB82E850406E9ABFFA80AC0046ED6 
+ip scp server enable
+!
+!
+{% if host.facts.prefix_lists is defined %}
+{% for list, data in host.facts.prefix_lists.items() %}
+{% for num, ndata in data.items() %}
+ip prefix-list {{ list }} seq {{ num }} {{ ndata.action }} {{ ndata.prefix }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+ipv6 ioam timestamp
+!
+!
+{% if host.facts.access_lists is defined %}
+{% for num, data in host.facts.access_lists.items() %}
+access-list {{ num }} {{ data.action }} {{ data.obj }}
+{% endfor %}
+{% endif %}
+!
+!
+!
+control-plane
+!
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+line aux 0
+line vty 0 4
+ no exec-banner
+ exec-timeout 0 0
+ logging synchronous
+ transport input ssh
+!
+no scheduler allocate
+event manager session cli username "vagrant"
+event manager applet EEM_SSH_Keygen authorization bypass
+ event syslog pattern "SYS-5-RESTART"
+ action 0.0 set status "none"
+ action 1.0 cli command "enable"
+ action 2.0 cli command "show ip ssh | include ^SSH"
+ action 2.1 regexp "([ED][^ ]+)" "$_cli_result" result status
+ action 2.2 syslog priority informational msg "SSH is currently $status"
+ action 3.0 if $status eq "Disabled"
+ action 3.1  cli command "configure terminal"
+ action 3.2  cli command "crypto key generate rsa usage-keys label VAGRANT modulus 1024"
+ action 3.3  cli command "end"
+ action 3.4  cli command "copy run start"
+ action 3.5  syslog priority informational msg "SSH keys generated by EEM"
+ action 4.0 end
+!
+end

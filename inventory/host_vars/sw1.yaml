@@ -1,0 +1,34 @@
+---
+vtp:
+  domain: example.com
+  mode: transparent
+errdisable_recovery_bpduguard: true
+interfaces:
+  Loopback0:
+    ipv4:
+      addr: 192.168.255.21
+      mask: 255.255.255.255
+    ipv6:
+      addr: 2001::21
+      mask: 128
+  Vlan10:
+    ipv4:
+      addr: 165.1.10.21
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:10::21
+      mask: 64
+  Vlan11:
+    ipv4:
+      addr: 165.1.11.21
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:11::21
+      mask: 64
+  Vlan12:
+    ipv4:
+      addr: 165.1.12.21
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:12::21
+      mask: 64

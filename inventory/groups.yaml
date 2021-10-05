@@ -1,0 +1,11 @@
+---
+router:
+  data:
+    type: iosv
+    version: 15.9
+    lldp: true
+switch:
+  data:
+    type: iosvl2
+    version: 15.2
+    lldp: true

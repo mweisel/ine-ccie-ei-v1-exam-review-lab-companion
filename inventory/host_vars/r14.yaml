@@ -1,0 +1,29 @@
+---
+routing:
+  ipv6: true
+access_lists:
+  '1':
+    action: permit
+    obj: 192.168.255.9
+interfaces:
+  Loopback0:
+    ipv4:
+      addr: 192.168.255.14
+      mask: 255.255.255.255
+    ipv6:
+      addr: 2001::14
+      mask: 128
+  GigabitEthernet0/1:
+    ipv4:
+      addr: 165.1.143.14
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:143::14
+      mask: 64
+  GigabitEthernet0/2:
+    ipv4:
+      addr: 165.1.148.14
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:148::14
+      mask: 64

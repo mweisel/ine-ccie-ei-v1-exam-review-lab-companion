@@ -1,0 +1,17 @@
+---
+connection_options:
+  scrapli:
+    platform: cisco_iosxe
+    username: vagrant
+    extras:
+      auth_private_key: '~/.vagrant.d/insecure_private_key'
+      auth_strict_key: false
+      transport: ssh2
+      # transport_options:
+      #   open_cmd:
+      #     - '-o'
+      #     - 'HostkeyAlgorithms=+ssh-rsa'
+      #     - '-o'
+      #     - 'PubkeyAcceptedAlgorithms=+ssh-rsa'
+      #     - '-o'
+      #     - 'KexAlgorithms=+diffie-hellman-group-exchange-sha1'

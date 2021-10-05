@@ -1,0 +1,3 @@
+scrapli[ssh2]
+nornir-scrapli
+nornir-jinja2

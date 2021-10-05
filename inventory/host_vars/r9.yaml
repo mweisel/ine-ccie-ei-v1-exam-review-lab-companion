@@ -1,0 +1,27 @@
+---
+routing:
+  ipv6: true
+interfaces:
+  Loopback0:
+    ipv4:
+      addr: 192.168.255.9
+      mask: 255.255.255.255
+    ipv6:
+      addr: 2001::9
+      mask: 128
+  GigabitEthernet0/1.79:
+    vlan: 79
+    ipv4:
+      addr: 165.1.79.9
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:79::9
+      mask: 64
+  GigabitEthernet0/1.89:
+    vlan: 89
+    ipv4:
+      addr: 165.1.89.9
+      mask: 255.255.255.0
+    ipv6:
+      addr: 2001:165:1:89::9
+      mask: 64
