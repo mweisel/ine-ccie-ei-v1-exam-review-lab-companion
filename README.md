@@ -7,7 +7,7 @@ This project constructs a lab environment for INE's [CCIE Enterprise Infrastruct
   * [Vagrant](https://www.vagrantup.com)
   * [QEMU](https://www.qemu.org)/[KVM](https://www.linux-kvm.org)
   * [libvirt](https://libvirt.org)
-  * [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt)
+  * [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt) >= 0.8.0
   * [Cisco IOSv Vagrant box](https://github.com/mweisel/cisco-iosv-vagrant-libvirt)
   * [Cisco IOSvL2 Vagrant box](https://github.com/mweisel/cisco-iosvl2-vagrant-libvirt)
   * [Python](https://www.python.org) >= 3.7
@@ -89,28 +89,11 @@ $ <b>vagrant up</b>
 $ <b>python init.py</b>
 </pre>
 
-10\. Connect to the devices via:
-
-> SSH
+10\. Connect to the Cisco devices via SSH.
 
 <pre>
 $ <b>ssh r7</b>
-</pre>
-
-> Console with Telnet
-
-<pre>
-$ <b>grep -w 'r7' -A5 Vagrantfile</b>
-  config.vm.define "<b>r7</b>" do |node|
-    node.vm.box = "cisco-iosv"
-    node.vm.provider :libvirt do |domain|
-      domain.management_network_mac = "52:54:00:c6:3b:65"
-      domain.qemuargs :value =&gt; "-serial"
-      domain.qemuargs :value =&gt; "telnet:127.0.0.1:<b>52007</b>,server,nowait"
-</pre>
-
-<pre>
-$ <b>telnet 127.0.0.1 52007</b>
+$ <b>ssh sw2</b>
 </pre>
 
 <a href="https://asciinema.org/a/440193?speed=2" target="_blank"><img src="https://asciinema.org/a/440193.svg" /></a>
