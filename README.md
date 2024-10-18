@@ -44,59 +44,29 @@ $ <b>cd ine-ccie-ei-v1-exam-review-lab-companion</b>
 2\. Create a Python virtual environment.
 
 <pre>
-$ <b>python3 -m venv .venv</b>
+$ <b>source init_venv.sh</b>
 </pre>
 
-3\. _Activate_ the Python virtual environment.
-
-<pre>
-$ <b>source .venv/bin/activate</b>
-</pre>
-
-4\. Update the `pip` and `setuptools` Python packages.
-
-<pre>
-$ <b>pip install -U pip setuptools</b>
-</pre>
-
-5\. _Reactivate_ the Python virtual environment.
-
-<pre>
-$ <b>deactivate && source .venv/bin/activate</b>
-</pre>
-
-6\. Install the Nornir and Scrapli Python packages.
-
-<pre>
-$ <b>pip install -r requirements.txt</b>
-</pre>
-
-7\. _Reactivate_ the Python virtual environment.
-
-<pre>
-$ <b>deactivate && source .venv/bin/activate</b>
-</pre>
-
-8\. Instantiate the Cisco devices.
+3\. Instantiate the Cisco devices.
 
 <pre>
 $ <b>vagrant up</b>
 </pre>
 
-9\. Run the Python script to configure the Cisco devices for the INE labs.
+4\. Run the Python script to configure the Cisco devices for the INE labs.
 
 <pre>
-$ <b>python init.py</b>
+$ <b>python3 set_lab_config.py</b>
 </pre>
 
-10\. Connect to the Cisco devices via SSH.
+5\. Connect to the Cisco devices via SSH.
 
 <pre>
-$ <b>ssh r7</b>
-$ <b>ssh sw2</b>
+# OpenSSH
+$ <b>ssh r1</b>
+# Vagrant
+$ <b>vagrant ssh r1</b>
 </pre>
-
-<a href="https://asciinema.org/a/440193?speed=2" target="_blank"><img src="https://asciinema.org/a/440193.svg" /></a>
 
 ## License
 
