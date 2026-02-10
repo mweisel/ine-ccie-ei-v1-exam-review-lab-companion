@@ -1,3 +1,0 @@
-scrapli
-nornir-scrapli
-nornir-jinja2

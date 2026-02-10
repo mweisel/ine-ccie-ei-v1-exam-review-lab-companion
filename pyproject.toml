@@ -1,0 +1,5 @@
+[project]
+name = "ine-ccie-ei-v1-exam-review-lab-companion"
+version = "0.0.1"
+requires-python = "==3.14.*"
+dependencies = ["nornir-scrapli", "nornir-jinja2", "ssh2-python"]

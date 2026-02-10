@@ -1,2 +1,5 @@
 .venv
+uv.lock
 .vagrant
+.ropeproject
+.ruff_cache
